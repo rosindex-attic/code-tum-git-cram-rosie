@@ -43,4 +43,5 @@
            #:location-not-reached-failure
            #:location-reached-but-not-terminated
            #:*navigation-speed-fluent*
-           #:*navigation-distance-to-goal-fluent*))
+           #:*navigation-distance-to-goal-fluent*
+           #:approach-waypoint))
