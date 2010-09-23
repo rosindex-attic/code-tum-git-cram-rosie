@@ -3,7 +3,11 @@
   <author>Maintained by Lorenz Moesenlechner</author>
   <license>BSD</license>  
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/cram_process_modules_rosie</url>
+  <url>http://ros.org/wiki/cram_rosie</url>
+  <depend stack="cram_highlevel" /> <!-- cram_roslisp_common, designators_ros, cljlo, cljlo_utils, perception_process_module -->
+  <depend stack="cram_pl" /> <!-- cram_reasoning, process_modules -->
+  <depend stack="ias_common" /> <!-- navp_action, cogman_msgs -->
   <depend stack="ros" />
+  <depend stack="roslisp_common" /> <!-- actionlib_lisp -->
 
 </stack>
