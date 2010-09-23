@@ -1,0 +1,9 @@
+<stack>
+  <description brief="cram_process_modules_rosie">cram_process_modules_rosie</description>
+  <author>Maintained by Lorenz Moesenlechner</author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/cram_process_modules_rosie</url>
+  <depend stack="ros" />
+
+</stack>
