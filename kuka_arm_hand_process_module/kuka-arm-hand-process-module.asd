@@ -40,6 +40,7 @@
                actionlib
                cram-roslisp-common
                cram-reasoning
+               cram-plan-failures
                perception-process-module)
   :components
   ((:module "src"

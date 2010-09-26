@@ -34,7 +34,8 @@
         #:cut
         #:desig
         #:designators-ros
-        #:cram-roslisp-common        
+        #:cram-roslisp-common
+        #:cram-plan-failures
         #:cljlo-utils)
   (:nicknames :kuka-manip-desig)
   (:export #:trajectory-action #:side #:trajectory-type #:stored-pose-type

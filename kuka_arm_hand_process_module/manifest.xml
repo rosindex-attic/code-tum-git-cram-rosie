@@ -16,6 +16,7 @@
   <depend package="cljlo"/>
   <depend package="cram_roslisp_common"/>
   <depend package="cram_reasoning"/>
+  <depend package="cram_plan_failures"/>
   <depend package="perception_process_module"/>
 
 </package>

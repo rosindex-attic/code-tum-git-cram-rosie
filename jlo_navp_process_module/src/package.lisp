@@ -35,6 +35,7 @@
           #:designators-ros
           #:desig
           #:cram-roslisp-common
+          #:cram-plan-failures
           #:cljlo-utils
           #:roslisp)
   (:nicknames :navp-pm)

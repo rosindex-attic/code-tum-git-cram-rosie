@@ -28,13 +28,14 @@
 ;;;
 
 (defsystem jlo-navp-process-module
-  :depends-on ("process-modules"
-               "cram-roslisp-common"
-               "designators-ros"
-               "actionlib"
-               "cljlo"
-               "cljlo-utils"
-               "navp_action-msg")
+  :depends-on (process-modules
+               cram-roslisp-common
+               designators-ros
+               actionlib
+               cljlo
+               cljlo-utils
+               navp_action-msg
+               cram-plan-failures)
   :components
   ((:module "src"
             :components

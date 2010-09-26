@@ -29,13 +29,6 @@
 
 (in-package :navp-pm)
 
-(define-condition navigation-failure (plan-error)
-  ((location :initarg :location :initform nil :reader navigation-failure-location)))
-
-(define-condition location-not-reached-failure (navigation-failure) ())
-
-(define-condition location-reached-but-not-terminated (plan-error) ())
-
 (defun get-nav-waypoints (goal)
   (list goal))
 
@@ -47,7 +40,7 @@
         (navigation-execute-goal (jlo:id goal))
         (wait-for (< *navigation-distance-to-goal-fluent* threshold)))))
 
-(def-process-module navigation (input)
+(def-process-module jlo-navp-controller-navigation (input)
   ;; This process module navigates the robot to the location given as
   ;; input.
   (ros-info (nav process-module) "[Navigation process module] received input ~a~%" (reference input))

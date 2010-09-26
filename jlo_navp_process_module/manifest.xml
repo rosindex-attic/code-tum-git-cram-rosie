@@ -15,6 +15,7 @@
   <depend package="designators_ros"/>
   <depend package="navp_action"/>
   <depend package="cljlo_utils"/>
+  <depend package="cram_plan_failures"/>
 
 </package>
 

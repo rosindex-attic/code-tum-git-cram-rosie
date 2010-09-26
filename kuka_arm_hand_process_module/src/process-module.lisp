@@ -29,15 +29,9 @@
 
 (in-package :kuka-pm)
 
-(define-condition object-lost (simple-plan-error) ())
-(define-condition manipulation-failed (simple-plan-error) ())
-(define-condition manipulation-pose-unreachable (simple-plan-error)
-  ((alternative-poses :initform nil :initarg :alternative-poses
-                       :reader alternative-poses)))
-
 (defvar *manipulation-action-designator* nil)
 
-(def-process-module manipulation (input)
+(def-process-module kuka-arm-hand-manipulation (input)
   (flet ((check-result (action-result)
            (destructuring-bind (state action-result better-lo-ids distance-to-goal)
                action-result
