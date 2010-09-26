@@ -57,6 +57,6 @@
      (:export
       #:object-lost #:manipulation-failed
       #:manipulation-pose-unreachable #:alternative-poses
-      #:manipulation
+      #:kuka-arm-hand-manipulation
       ,@(let ((r nil))
           (do-external-symbols (s :kuka-arm-hand-designator r) (push s r)))))

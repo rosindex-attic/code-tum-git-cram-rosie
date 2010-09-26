@@ -38,7 +38,7 @@
           #:cljlo-utils
           #:roslisp)
   (:nicknames :navp-pm)
-  (:export #:navigation
+  (:export #:jlo-navp-controller-navigation
            #:navigation-failure
            #:location-not-reached-failure
            #:location-reached-but-not-terminated
