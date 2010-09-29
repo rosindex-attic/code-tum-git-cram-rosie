@@ -174,7 +174,7 @@
     )
   
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to grasp))
     (desig-prop ?desig (obj ?obj))
     (desig-prop ?desig (side ?side))
@@ -191,7 +191,7 @@
     )
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (or (desig-prop ?desig (to navigate))
         (desig-prop ?desig (pose parked)))
     (desig-prop ?desig (side ?side))
@@ -201,7 +201,7 @@
     (slot-value ?act stored-pose-type "parking"))
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (pose open))
     (desig-prop ?desig (side ?side))
     (instance-of trajectory-action ?act)
@@ -210,7 +210,7 @@
     (slot-value ?act stored-pose-type "open"))
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to show))
     (desig-prop ?desig (side ?side))
     (instance-of trajectory-action ?act)
@@ -220,7 +220,7 @@
     (slot-value ?act stored-pose-type "show"))
   
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to lift))
     (desig-prop ?desig (side ?side))
     (instance-of trajectory-action ?act)
@@ -231,7 +231,7 @@
     (slot-value ?act end-effector-pose ?lift-jlo))
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to carry))
     (desig-prop ?desig (side ?side))
     (instance-of trajectory-action ?act)
@@ -242,7 +242,7 @@
     (slot-value ?act end-effector-pose ?carry-jlo))
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to put-down))
     (desig-prop ?desig (side ?side))
     (desig-prop ?desig (at ?loc-desig))
@@ -256,7 +256,7 @@
     (slot-value ?act end-effector-pose ?jlo))
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to open))
     (desig-prop ?desig (gripper ?side))
     (instance-of trajectory-action ?act)
@@ -265,7 +265,7 @@
     (slot-value ?act hand-primitive "open_thumb90"))
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to close))
     (desig-prop ?desig (gripper ?side))
     (instance-of trajectory-action ?act)
@@ -274,7 +274,7 @@
     (slot-value ?act hand-primitive "3pinch"))
 
   (<- (action-desig ?desig ?act)
-    (manip-desig? ?desig)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (pose ?p))
     (desig-prop ?desig (side ?side))
     (or (lisp-type ?p cl-tf:stamped-transform)
