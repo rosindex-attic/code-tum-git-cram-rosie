@@ -45,7 +45,7 @@
            #:to #:grasp #:obj #:side #:to #:navigate #:pose #:parked
            #:open #:show #:carry #:lift #:put-down #:at #:gripper)
   (:import-from #:perception-process-module
-                #:object-pose))
+                #:object-jlo))
 
 #.`(defpackage kuka-arm-hand-process-module
        (:documentation "Package for the kuka arm-hand process module")
