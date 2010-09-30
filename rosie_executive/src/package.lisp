@@ -32,7 +32,8 @@
   (:use #:cpl
         #:cram-designators
         #:cram-plan-library
-        #:designators-ros)
+        #:designators-ros
+        #:cram-roslisp-common)
   (:import-from #:cram-plan-knowledge
                 #:clear-belief))
 
