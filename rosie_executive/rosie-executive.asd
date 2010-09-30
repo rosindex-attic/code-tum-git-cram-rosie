@@ -53,6 +53,7 @@
                  kuka-arm-hand-process-module
                  perception-process-module
                  powercube-ptu-process-module
+                 rosie_executive-srv
                  #+kipla-contrib-oro oro_ros-srv
                  #+kipla-contrib-oro yason
                  #+kipla-contrib-hri web_hri-srv)
@@ -72,7 +73,8 @@
                         :depends-on ("package")
                         :components
                         ((:file "prolog-utils")
-                         (:file "location-facts")))
+                         (:file "location-facts")
+                         (:file "pick-and-place-statistics")))
                (:module "contrib"
                         :depends-on ()
                         :components

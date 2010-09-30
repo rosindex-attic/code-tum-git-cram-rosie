@@ -52,4 +52,3 @@
         #:designators-ros
         #:perception-pm)
   (:import-from #:cpl-impl #:value))
-

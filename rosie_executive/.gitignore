@@ -3,3 +3,10 @@
 execution_traces
 doc/*.html
 doc/*.png
+msg/lisp
+msg/java
+msg/oct
+srv/lisp
+srv/java
+srv/oct
+src/rosie_executive
