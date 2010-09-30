@@ -33,9 +33,12 @@
         #:cram-designators
         #:cram-plan-library
         #:designators-ros
-        #:cram-roslisp-common)
+        #:cram-roslisp-common
+        #:table-costmap)
   (:import-from #:cram-plan-knowledge
-                #:clear-belief))
+                #:clear-belief)
+  (:shadowing-import-from #:table-costmap
+                          #:name))
 
 (defpackage :rosie-executive-reasoning
     (:nicknames :kipla-reasoning :rex-reasoning)
