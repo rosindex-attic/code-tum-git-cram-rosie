@@ -22,9 +22,6 @@
         (desig-prop ?desig (perception-pm::shape-model ?type))
         (desig-prop ?desig (perception-pm::segment-prototype ?type))))
 
-  (<- (obj-desig-loc ?desig ?loc)
-    (desig-prop ?desig (at ?loc)))
-
   (<- (put-down-location ?loc-desig)
     ;; The location the robot stands at while trying to put down an
     ;; object
@@ -39,10 +36,12 @@
     (desig-prop ?traj (to grasp))
     (desig-prop ?traj (obj ?obj))
     (obj-desig-type ?obj ?type)
-    (obj-desig-loc ?obj ?obj-loc)
+    (lisp-fun obj-desig-locaction ?obj ?obj-loc)
     (task-location-context ?reach-tsk ?pick-up-loc)
     (task-outcome ?reach-tsk ?outcome))
 
+  (<- (pick-up-loc (?_ ?_ ?_ ?loc ?_) ?loc))
+  
   (<- (put-down-metadata (?tsk ?type ?obj ?destination ?put-down-loc ?outcome))
     (task ?tsk)
     (task-goal ?tsk (achieve (object-placed-at ?_ ?dest)))
@@ -63,6 +62,88 @@
     (subtask+ ?tsk ?at-loc-tsk)
     (lisp-fun reference ?robot-loc ?x)
     (task-outcome ?tsk ?outcome)))
+
+(defun enable-episode-knowledge (filename)
+  (setf cet:*episode-knowledge*
+        (cet:load-episode-knowledge filename)))
+
+(def-fact-group execution-trace-interface ()
+  (<- (with-execution-trace ?filename)
+    (lisp-fun enable-episode-knowledge ?filename ?_)))
+
+(def-fact-group pick-and-place-visualization ()
+  (<- (clear-markers)
+    (lisp-fun clear-markers ?_))
+  
+  (<- (visualize-robot-pose ?pose ?outcome)
+    (lisp-fun visualize-robot-pose ?pose ?outcome ?_))
+
+  ;; Visualizes the trajectory of the tf frame ?frame during ?tsk
+  (<- (visualize-trajectory ?tsk ?frame)
+    (bound ?frame)
+    (task-started-at ?tsk ?st)
+    (task-ended-at ?tsk ?et)
+    (task-outcome ?tsk ?outcome)
+    (lisp-fun visualize-tf-trajectory ?frame ?st ?et ?outcome ?_))
+
+  (<- (visualize-obj ?obj-desig)
+    (obj-desig-type ?obj-desig ?type)
+    (lisp-fun obj-desig-location ?obj-desig ?loc)
+    (format "asdf ~a ~a~%" ?obj-desig ?type)
+    (lisp-fun visualize-object ?type ?loc ?_))
+
+  (<- (visualize-tsk-location ?goal ?tsk ?outcome)
+    (task ?tsk)
+    (task-goal ?tsk ?goal)
+    (task-outcome ?tsk ?outcome)
+    (once (and (subtask+ ?tsk ?at-loc-tsk)
+               (task-goal ?at-loc-tsk (at-location (?robot-loc)))))
+    (lisp-fun loc-desig-location ?robot-loc ?pose)
+    (visualize-robot-pose ?pose ?outcome))
+
+  (<- (visualize-arm-trajectory ?action ?tsk ?outcome)
+    (task ?tsk)
+    (task-goal ?tsk (achieve (arms-at ?traj)))
+    (task-outcome ?tsk ?outcome)
+    (desig-prop ?traj (to ?action))
+    (desig-prop ?traj (side ?side))
+    (lisp-fun symbol-name ?side ?side-str)
+    (lisp-fun string-downcase ?side-str ?side-lc-str)
+    (string-concat ?side-lc-str "_arm_hand_link" ?frame)
+    (visualize-trajectory ?tsk ?frame))
+
+  (<- (visualize-arm-trajectory ?goal ?tsk ?outcome)
+    (task ?tsk)
+    (task-goal ?tsk ?goal)
+    (once (and (subtask+ ?tsk ?manip-tsk)
+               (task-goal ?manip-tsk (achieve (arms-at ?traj)))))
+    (task-outcome ?tsk ?outcome)
+    (desig-prop ?traj (side ?side))
+    (lisp-fun symbol-name ?side ?side-str)
+    (lisp-fun string-downcase ?side-str ?side-lc-str)
+    (string-concat ?side-lc-str "_arm_hand_link" ?frame)
+    (visualize-trajectory ?tsk ?frame))
+
+  (<- (visualize-robot-trajectory ?action ?tsk ?outcome)
+    (task ?tsk)
+    (task-goal ?tsk (achieve (arms-at ?traj)))
+    (task-outcome ?tsk ?outcome)
+    (desig-prop ?traj (to ?action))
+    (visualize-trajectory ?tsk "base_footprint"))
+
+  (<- (visualize-robot-trajectory ?goal ?tsk ?outcome)
+    (task ?tsk)
+    (task-goal ?tsk ?goal)
+    (task-outcome ?tsk ?outcome)
+    (visualize-trajectory ?tsk "base_footprint"))
+
+  (<- (visualize-object-detection ?tsk ?type)
+    (task ?tsk)
+    (task-goal ?tsk (perceive ?obj))
+    (task-outcome ?tsk :succeeded)
+    (task-result ?tsk ?o)
+    (obj-desig-type ?o ?type)
+    (visualize-obj ?o)))
 
 (defun pose-stamped->msg (ps)
   (roslisp:make-message "geometry_msgs/PoseStamped"
