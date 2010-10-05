@@ -126,7 +126,7 @@
                                                              0.15 0.25)
                                (cl-transforms:make-quaternion 0 0 0 1))
                         :target-frame "/base_link"))
-           (hand-orientation (or (desig-prop-value obj-loc-desig  'orientation)
+           (hand-orientation (or (desig-prop-value obj-loc-desig 'orientation)
                                  (error 'simple-error
                                         :format-control "Cannot find object orientation in designator `~a'"
                                         :format-arguments (list carried-obj)))))

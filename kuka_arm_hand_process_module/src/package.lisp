@@ -36,6 +36,7 @@
         #:designators-ros
         #:cram-roslisp-common
         #:cram-plan-failures
+        #:cram-plan-knowledge
         #:cljlo-utils)
   (:nicknames :kuka-manip-desig)
   (:export #:trajectory-action #:side #:trajectory-type #:stored-pose-type
@@ -53,11 +54,10 @@
            #:cram-process-modules
            #:cram-roslisp-common
            #:kuka-arm-hand-designator
+           #:cram-plan-failures
            #:desig)
      (:nicknames :kuka-pm) 
      (:export
-      #:object-lost #:manipulation-failed
-      #:manipulation-pose-unreachable #:alternative-poses
       #:kuka-arm-hand-manipulation
       ,@(let ((r nil))
           (do-external-symbols (s :kuka-arm-hand-designator r) (push s r)))))

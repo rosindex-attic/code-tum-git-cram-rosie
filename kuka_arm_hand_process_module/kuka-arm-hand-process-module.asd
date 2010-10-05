@@ -41,6 +41,7 @@
                cram-roslisp-common
                cram-reasoning
                cram-plan-failures
+               cram-plan-knowledge
                perception-process-module)
   :components
   ((:module "src"
