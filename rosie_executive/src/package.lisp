@@ -55,4 +55,7 @@
         #:cram-roslisp-common
         #:designators-ros
         #:perception-pm)
-  (:import-from #:cpl-impl #:value))
+  (:import-from #:cpl-impl #:value)
+  (:import-from #:cram-plan-library
+                #:object-picked-up
+                #:object-in-hand-failure))
