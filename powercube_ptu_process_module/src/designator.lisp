@@ -35,13 +35,14 @@
   ((jlo :reader jlo :initarg :jlo)
    (mode :reader mode :initarg :mode)))
 
-(defun make-action-goal (ptu-goal)
-  (declare (type ptu-goal ptu-goal))
-  (roslisp:make-message "cogman_msgs/PtuGoal"
-                        lo_id (jlo:id (jlo ptu-goal))
-                        mode (ecase (mode ptu-goal)
-                               (:point 0)
-                               (:follow 1))))
+(defun make-action-goal (desig)
+  (declare (type action-designator desig))
+  (let ((ptu-goal (reference desig)))
+    (roslisp:make-message "cogman_msgs/PtuGoal"
+                          lo_id (jlo:id (jlo ptu-goal))
+                          mode (ecase (mode ptu-goal)
+                                 (:point 0)
+                                 (:follow 1)))))
 
 (defun as-jlo (pose)
   (typecase pose
@@ -49,13 +50,17 @@
        (roslisp:ros-warn (ptu process-module)
                          "Received deprecated pose type JLO")
        pose)
+    (location-designator
+       (pose->jlo (loc-desig-location (current-desig pose))))
+    (object-designator
+       (pose->jlo (obj-desig-location (current-desig pose))))
     (t (pose->jlo pose))))
 
 (def-fact-group powercube-ptu (action-desig)
 
   (<- (ptu-action-goal ?pose ?mode ?goal)
     (instance-of ptu-goal ?goal)
-    (lispfun as-jlo ?pose ?jlo)
+    (lisp-fun as-jlo ?pose ?jlo)
     (slot-value ?goal jlo ?jlo)
     (slot-value ?goal mode ?mode))
   
