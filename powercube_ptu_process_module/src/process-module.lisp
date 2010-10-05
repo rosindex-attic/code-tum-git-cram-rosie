@@ -37,4 +37,6 @@
 (register-ros-init-function init-powercube-ptu-pm)
 
 (def-process-module ptu-process-module (goal)
-  (actionlib:call-goal *action-client* (make-action-goal goal)))
+  (actionlib:call-goal *action-client* (make-action-goal goal))
+  ;; Ugly sleep to let the swissranger settle down
+  (sleep 1.5))
