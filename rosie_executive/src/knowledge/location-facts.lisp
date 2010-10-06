@@ -55,16 +55,16 @@
   11)
 
 (def-fact-group rosie-specific-costmap-params (drivable-location-costmap)
-    (<- (costmap-padding 0.75))
-    (<- (costmap-manipulation-padding 0.5))
+  (<- (costmap-padding 0.75))
+  (<- (costmap-manipulation-padding 0.5))
 
-    (<- (drivable-location-costmap ?cm ?_)
-      (costmap ?cm)
-      (lisp-fun current-robot-axis-side :x -2.0 ?side)
-      (costmap-add-function
-       x-axis-side
-       (make-axis-boundary-cost-function :x -2.0 ?side)
-       ?cm)))
+  (<- (drivable-location-costmap ?cm ?_)
+    (costmap ?cm)
+    (lisp-fun current-robot-axis-side :x -2.0 ?side)
+    (costmap-add-function
+     x-axis-side
+     (make-axis-boundary-cost-function :x -2.0 ?side)
+     ?cm)))
 
 (def-fact-group costmap-metadata ()
   (<- (costmap-size ?width ?height)
