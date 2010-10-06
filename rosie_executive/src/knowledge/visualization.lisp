@@ -144,7 +144,7 @@
                  type (symbol-code 'visualization_msgs-msg:<marker>
                                    (case type
                                      (assam-blend :cube)
-                                     (mug :culinder)
+                                     (mug :cylinder)
                                      (cluster :sphere)
                                      (t :cube)))
                  action (symbol-code 'visualization_msgs-msg:<marker> :add)
