@@ -1,5 +1,0 @@
-string execution_trace_filename
----
-rosie_executive/PlanInfo[] perceives
-rosie_executive/PlanInfo[] pick_ups
-rosie_executive/PlanInfo[] put_downs
