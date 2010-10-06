@@ -21,7 +21,4 @@
   <depend package="kuka_arm_hand_process_module"/>
   <depend package="perception_process_module"/>
   <depend package="powercube_ptu_process_module"/>
-  <depend package="geometry_msgs"/>
-  <depend package="visualization_msgs"/>
-  <depend package="tf_trajectory_visualization"/>
 </package>

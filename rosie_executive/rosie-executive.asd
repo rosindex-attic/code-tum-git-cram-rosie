@@ -54,7 +54,6 @@
                  perception-process-module
                  powercube-ptu-process-module
                  rosie_executive-srv
-                 tf_trajectory_visualization-srv
                  #+kipla-contrib-oro oro_ros-srv
                  #+kipla-contrib-oro yason
                  #+kipla-contrib-hri web_hri-srv)
@@ -74,10 +73,7 @@
                         :depends-on ("package")
                         :components
                         ((:file "prolog-utils")
-                         (:file "location-facts")
-                         (:file "pick-and-place-queries"
-                                :depends-on ("visualization"))
-                         (:file "visualization")))
+                         (:file "location-facts")))
                (:module "contrib"
                         :depends-on ()
                         :components

@@ -9,4 +9,4 @@ rosbuild_genmsg()
 rosbuild_gensrv()
 
 # rospack_add_lisp_executable(bin/drive_to_waypoints kipla kipla:drive-to-waypoints-main)
- rospack_add_lisp_executable(bin/rosie_executive_action rosie-executive cram-actionserver:server)
+rospack_add_lisp_executable(bin/rosie_executive_action rosie-executive cram-actionserver:server)
