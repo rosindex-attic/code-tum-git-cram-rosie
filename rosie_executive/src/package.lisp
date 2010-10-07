@@ -43,6 +43,7 @@
 (defpackage :rosie-executive-reasoning
     (:nicknames :kipla-reasoning :rex-reasoning)
   (:use #:common-lisp
+        #:crs
         #:roslisp
         #:desig
         #:cram-utilities
