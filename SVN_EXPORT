@@ -1,0 +1,226 @@
+commit c646c87c76a173b8229ebedaa3367eb102569c31
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Mon Oct 11 16:44:57 2010 +0200
+
+    Updated and moved pr2 highlevel launch scripts
+
+commit 8a372a9e6a71951c187c0e1b73f580ce18445766
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Oct 7 20:18:31 2010 +0200
+
+    Use cram-reasoning in rex-reasoning package
+
+commit b8ae6985ea7741f3ecb52ab78cdf487c97dfea00
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Wed Oct 6 20:21:02 2010 +0200
+
+    Added definition for in-reach designator to rosie_executive
+
+commit 250a9d899ed60de51767b957ad50d14803b08166
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Wed Oct 6 19:50:53 2010 +0200
+
+    Reindention
+
+commit 6168ec2a6f99fbfca2f99973506a93c2a7e6f1c5
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Wed Oct 6 16:10:29 2010 +0200
+
+    Moved the QueryManipulationInfo service definition into rosie_exec_trace
+
+commit b9d64dc5a108384a4eec3006e2c37ba8ec9e2b3a
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Wed Oct 6 15:20:26 2010 +0200
+
+    Moved execution trace visualization into a separate package
+    
+    ... and into the new stach cram_demo_apps
+
+commit f63abf016e8155ea40b1e99579c2e9ec42d122e3
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Wed Oct 6 14:26:28 2010 +0200
+
+    Fixed typo
+
+commit 3a5b8cc8ad67eb8963ee4516d3928dfabac0d9fb
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Tue Oct 5 21:10:42 2010 +0200
+
+    More queries to visualize and get information from the execution trace
+
+commit c5f27ce14878d61782ad6aba753c067108518fe7
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Tue Oct 5 20:02:42 2010 +0200
+
+    Deleted license file
+
+commit 34f93d4e84ae873b2e94b56fba32e670f75abc38
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Tue Oct 5 15:54:06 2010 +0200
+
+    Fixed manipulation process module package exports and dependencies
+    
+    We need to import cram_plan_knowledge
+
+commit 861eb66849d43b2405be75053d2c32e19fdedc4d
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Tue Oct 5 15:52:50 2010 +0200
+
+    Added ugly sleep after executing PTU action
+    
+    The swissranger takes forever to settle down and send the right point
+    cloud.
+
+commit f02805f0038cbae596dd49e388f888a0ea130614
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Tue Oct 5 15:52:30 2010 +0200
+
+    Fixed PTU action designator resolution
+
+commit 3a3d74933cf5e811791914a1a133f1779dc6c1a6
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Tue Oct 5 15:49:47 2010 +0200
+
+    Manipulation pose is closer to the table now
+
+commit e9bd9a2331be4832517d6cda0055a05940029354
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Tue Oct 5 15:49:29 2010 +0200
+
+    Fixed package exports for RETE facts
+
+commit c8d0d148d2503c303d40a1f659f60c3fa5a73f61
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Mon Oct 4 21:57:10 2010 +0200
+
+    Removed auto-generated file
+
+commit 88a126bfd0921afa03ed2a0cfabd1d61f809dab4
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Mon Oct 4 15:24:35 2010 +0200
+
+    Renamed kimp to rosie_executive in launch file
+
+commit c43eb37cb83f82a6900123eecd33b5fb23df119b
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Mon Oct 4 14:31:53 2010 +0200
+
+    Fixed typo in comment
+
+commit 1f1b86b33865ee4135652ef23a73e5522f66a199
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 17:15:41 2010 +0200
+
+    Renamed rosie_executive launch files
+
+commit 8e7e5066b137052a649022daf6d74c201d7e0cb6
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 16:15:00 2010 +0200
+
+    Updated rosie_executive and designators package exports
+
+commit 50411dd59d73e82172eac405940949a73e83ea40
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 15:48:39 2010 +0200
+
+    Fixed rosie_executive package imports
+
+commit 16d5ab52b9493506b4c1cf9d6e20f1018fd4bf82
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 15:47:31 2010 +0200
+
+    Fixed package imports of kuka manipulation process module
+
+commit 3bfe02e23a60ad60119989ef7da44411d1a067cb
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 14:54:35 2010 +0200
+
+    Fixed rosie_executive CMakeLists
+
+commit 2a55eb25aac7e4dee6e77bb3b9e3f4fe80d1820f
+Merge: dc107da 09cb3ed
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 14:53:35 2010 +0200
+
+    Merge branch 'master' into modular_executive
+    
+    Conflicts:
+    	stacks/cram_highlevel/cram_plan_library/src/plans/achieve-object-manipulation.lisp
+    	stacks/cram_highlevel/kipla/.gitignore
+    	stacks/cram_highlevel/kipla/kipla.asd
+    	stacks/cram_highlevel/kipla/manifest.xml
+    	stacks/cram_highlevel/kipla/src/packages.lisp
+    	stacks/cram_highlevel/perception_process_module/src/cop/cop-search-handlers.lisp
+    	stacks/cram_rosie/jlo_navp_process_module/jlo-navp-process-module.asd
+    	stacks/cram_rosie/rosie_executive/CMakeLists.txt
+    	stacks/cram_rosie/rosie_executive/src/package.lisp
+
+commit dc107dac5b9522122f25b34de4ce501f12cfaeca
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 14:25:05 2010 +0200
+
+    Updated stack.xml files
+
+commit 30441ab8eea0d5b565f8d828e0456e77d8842d35
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 14:01:23 2010 +0200
+
+    Replaced kipla by rosie_executive package
+    
+    This came along with heavy restructuring and cleanups, but almost all
+    features we had in kipla should still be there.
+
+commit 8706948190966db378cdabbc87472391a049a75e
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 30 11:36:54 2010 +0200
+
+    Added powercube process module
+
+commit bc64dfbdbf4403b99e0e07c75b8cb751040a0763
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Wed Sep 29 17:23:36 2010 +0200
+
+    Renamed MANIP-DESIG? to MANIP-DESIG?
+
+commit 72e8a543c641483ea94ee4e3cb985b33ab673fb5
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Sun Sep 26 23:31:07 2010 +0200
+
+    Moved all process module conditions into separate package
+    
+    The need to be known by the plan library
+
+commit f57b5702611eadb25e59fdf058435a6f16504022
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Sun Sep 26 22:57:37 2010 +0200
+
+    Use different process module names in plans
+    
+    Process modules in planes are in the keyword package now (e.g. :navigation) and
+    will be provided by aliases on the actual process modules.
+
+commit b4afb04a81f1c293ba9779c0c394830bcdb35ab2
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 23 19:43:07 2010 +0200
+
+    Updated stack.xml files
+
+commit 03160a3fe32a4d8d0346c40f71cd2365f296c3c4
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 23 17:39:35 2010 +0200
+
+    Factored out kuka manipulation process module
+
+commit bb0995d237abe1f60f067e9d8971a449dd2b1321
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 23 17:37:54 2010 +0200
+
+    Exported symbol APPROACH-WAYPOINT of navigation process module
+
+commit 26781c15353747b3ce4b904f36aeeb7f218b5875
+Author: Lorenz Moesenlechner <moesenle@in.tum.de>
+Date:   Thu Sep 23 16:18:47 2010 +0200
+
+    Created new stack cram_rosie
+    
+    It contains all rosie specific packages of cram
