@@ -56,7 +56,15 @@
 (defun cop-failed-pick-up (op &key ?f ?obj ?side)
   (declare (ignore ?side))
   (when (eq op :assert)
-    (let ((perceived-object (reference (newest-valid-designator ?obj))))
+    (let ((perceived-object (reference (newest-valid-designator ?obj)))
+          (error-code (case ?f
+                        (cram-plan-failures:manipulation-pose-unreachable
+                           (symbol-code 'vision_msgs-msg:<system_error>
+                                        :manipulation_pose_unreachable))
+                        (cram-plan-failures:manipulation-failed
+                           (symbol-code 'vision_msgs-msg:<system_error>
+                                        :grasp_failed))
+                        (t 1))))
       (when (typep perceived-object 'cop-perceived-object)
         (publish *cop-feedback-pub*
                  (make-message
@@ -67,7 +75,7 @@
                   error (vector
                          (make-message
                           "vision_msgs/system_error"
-                          error_id 0
+                          error_id error-code
                           node_name *ros-node-name*
                           error_description (symbol-name ?f)))))))))
 
