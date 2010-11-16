@@ -130,15 +130,13 @@
                                  (error 'simple-error
                                         :format-control "Cannot find object orientation in designator `~a'"
                                         :format-arguments (list carried-obj)))))
-      (ecase side
-        (:right
-           (cl-tf:make-pose-stamped
-            "/base_link" (roslisp:ros-time)
-            (cl-transforms:make-3d-vector
-             (cl-transforms:x (cl-transforms:origin carry-pose))
-             (cl-transforms:y (cl-transforms:origin carry-pose))
-             (cl-transforms:z (cl-transforms:translation hand-trans)))
-            hand-orientation))))))
+      (cl-tf:make-pose-stamped
+       "/base_link" (roslisp:ros-time)
+       (cl-transforms:make-3d-vector
+        (cl-transforms:x (cl-transforms:origin carry-pose))
+        (cl-transforms:y (cl-transforms:origin carry-pose))
+        (cl-transforms:z (cl-transforms:translation hand-trans)))
+       hand-orientation))))
 
 (defun obj-desig-jlo-id (desig)
   "Returns the jlo id of the current perceived object of the object
