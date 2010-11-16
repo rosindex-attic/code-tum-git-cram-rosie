@@ -167,7 +167,7 @@
   ;; (<- (grasp-info ?obj "front" "3pinch" 0.04)
   ;;   (desig-prop ?obj (type coke)))
 
-  (<- (grasp-info ?obj "Cluster" "3pinch" 0.04)
+  (<- (grasp-info ?obj "Cluster" "3pinch" 0.0)
     ;; (desig-prop ?obj (type ?_))
     )
   
