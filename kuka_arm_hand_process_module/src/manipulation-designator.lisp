@@ -115,7 +115,9 @@
     (let* ((obj-loc-desig (desig-prop-value (current-desig carried-obj) 'at))
            (hand-trans (cl-tf:lookup-transform *tf*
                                                :target-frame "/base_link"
-                                               :source-frame "/right_arm_hand_link"))
+                                               :source-frame (ecase side
+                                                               (:right "/right_arm_hand_link")
+                                                               (:left "/left_arm_hand_link"))))
            (carry-pose (cl-tf:transform-pose
                         *tf*
                         :pose (cl-tf:make-pose-stamped
