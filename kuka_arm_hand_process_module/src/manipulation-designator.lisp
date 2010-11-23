@@ -87,7 +87,7 @@
     (symbol (string-downcase (symbol-name side)))
     (string side)))
 
-(defun calculate-lift-pose (side &optional (distance 0.10))
+(defun calculate-lift-pose (side &optional (distance 0.20))
   (let ((gripper-pose (cl-tf:lookup-transform
                        *tf*
                        :target-frame "/base_link"
@@ -106,39 +106,54 @@
        (cl-transforms:translation lift-pose)
        (cl-transforms:rotation lift-pose)))))
 
-(defun calculate-carry-pose (side)
+(defun get-grasp-type (side)
+  (let ((hand-trans (cl-transforms:transform->matrix
+                     (cl-tf:lookup-transform
+                      *tf*
+                      :target-frame "/base_link"
+                      :source-frame (ecase side
+                                      (:right "/right_arm_hand_link")
+                                      (:left "/left_arm_hand_link"))))))
+    ;; We represent our hand transformation as a matrix. Then we check
+    ;; for the y-axis of the transform being parallel or orthogonal to
+    ;; the z axis of base_link. In other words, if
+    ;; 
+    ;; (0 1) + (1 1) < (2 1),
+    ;;
+    ;; the y axis is approximately parallel to z in base_link,
+    ;; otherwise orthogonal.
+    (if (< (+ (abs (aref hand-trans 0 1))
+              (abs (aref hand-trans 1 1)))
+           (abs (aref hand-trans 2 1)))
+        :side-grasp
+        :top-grasp)))
+
+(defun calculate-carry-pose (side &optional grasp)
   (let ((carried-obj (var-value '?o (car
                                      (force-ll
                                       (rete-holds '(object-in-hand ?o ?s)))))))
     (assert carried-obj () "Not carrying an object in ~a gripper." side)
-    (assert (desig-prop-value carried-obj 'at) () "No location designator for object found.")
-    (let* ((obj-loc-desig (desig-prop-value (current-desig carried-obj) 'at))
-           (hand-trans (cl-tf:lookup-transform *tf*
-                                               :target-frame "/base_link"
-                                               :source-frame (ecase side
-                                                               (:right "/right_arm_hand_link")
-                                                               (:left "/left_arm_hand_link"))))
-           (carry-pose (cl-tf:transform-pose
-                        *tf*
-                        :pose (cl-tf:make-pose-stamped
-                               "/gs_cam" (roslisp:ros-time)
-                               (cl-transforms:make-3d-vector (ecase side
-                                                               (:right 0.35)
-                                                               (:left -0.35))
-                                                             0.15 0.25)
-                               (cl-transforms:make-quaternion 0 0 0 1))
-                        :target-frame "/base_link"))
-           (hand-orientation (or (desig-prop-value obj-loc-desig 'orientation)
-                                 (error 'simple-error
-                                        :format-control "Cannot find object orientation in designator `~a'"
-                                        :format-arguments (list carried-obj)))))
-      (cl-tf:make-pose-stamped
-       "/base_link" (roslisp:ros-time)
-       (cl-transforms:make-3d-vector
-        (cl-transforms:x (cl-transforms:origin carry-pose))
-        (cl-transforms:y (cl-transforms:origin carry-pose))
-        (cl-transforms:z (cl-transforms:translation hand-trans)))
-       hand-orientation))))
+    (ecase (or grasp (get-grasp-type side))
+      (:side-grasp (ecase side
+                     (:right
+                        (cl-tf:make-pose-stamped
+                         "/gs_cam" (roslisp:ros-time)
+                         (cl-transforms:make-3d-vector 0.35 0.10 0.20)
+                         (cl-transforms:q*
+                          (cl-transforms:axis-angle->quaternion (cl-transforms:make-3d-vector 0 1 0) (/ pi 2))
+                          (cl-transforms:axis-angle->quaternion (cl-transforms:make-3d-vector 1 0 0) pi))))
+                     (:left
+                        (cl-tf:make-pose-stamped
+                         "/gs_cam" (roslisp:ros-time)
+                         (cl-transforms:make-3d-vector -0.35 0.10 0.20)
+                         (cl-transforms:axis-angle->quaternion (cl-transforms:make-3d-vector 0 1 0) (/ pi 2))))))
+      (:top-grasp (cl-tf:make-pose-stamped
+                   "/gs_cam" (roslisp:ros-time)
+                   (cl-transforms:make-3d-vector (ecase side
+                                                   (:right 0.35)
+                                                   (:left -0.35))
+                                                 -0.10 0.25)
+                   (cl-transforms:make-quaternion -0.5 0.5 0.5 0.5))))))
 
 (defun obj-desig-jlo-id (desig)
   "Returns the jlo id of the current perceived object of the object
