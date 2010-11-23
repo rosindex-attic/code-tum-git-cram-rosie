@@ -1,5 +1,7 @@
 *.fasl
 *~
+build/
+bin/
 execution_traces
 doc/*.html
 doc/*.png
