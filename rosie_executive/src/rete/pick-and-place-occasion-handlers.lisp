@@ -63,3 +63,4 @@
                        ?obj))))
 
 (crs:register-production-handler 'object-picked-up #'on-object-picked-up)
+

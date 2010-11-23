@@ -65,9 +65,13 @@ names of points that are provided by the map_annotation server."
     (maybe-run-process-modules)
     (with-designators ((from (location `((on table) (name ,from))))
                        (to (location `((on table) (name ,to) (in reach))))
-                       (obj (object `(,@obj-properties (at ,from)))))
+                       (obj (object `(,@obj-properties (at ,from))))
+                       )
       (achieve `(loc ,obj ,to))
-      (achieve '(arm-parked :both)))))
+      (with-designators ((obj-see-loc (location `((to see) (obj ,obj)))))
+        (at-location (obj-see-loc)
+          (achieve '(arm-parked :both))))
+      (perceive obj))))
 
 (def-top-level-plan park-arms ()
   (pursue
