@@ -49,8 +49,8 @@
         (publish *cop-feedback-pub*
                  (make-message
                   "vision_msgs/cop_feedback"
-                  perception_primitive (perception-primitive
-                                        perceived-object)
+                  perception_primitive (perception-primitive perceived-object)
+                  eval_whitelist (vector (object-id perceived-object))
                   evaluation 1.0))))))
 
 (defun cop-failed-pick-up (op &key ?f ?obj ?side)
@@ -71,6 +71,7 @@
                   "vision_msgs/cop_feedback"
                   perception_primitive (perception-primitive
                                         perceived-object)
+                  eval_whitelist (vector (object-id perceived-object))
                   evaluation 0.0
                   error (vector
                          (make-message
