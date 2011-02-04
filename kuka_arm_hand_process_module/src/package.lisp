@@ -61,3 +61,8 @@
       #:kuka-arm-hand-manipulation
       ,@(let ((r nil))
           (do-external-symbols (s :kuka-arm-hand-designator r) (push s r)))))
+
+(desig:register-designator-properties
+ #:grasp #:obj #:side #:to #:navigate #:pose #:parked
+ #:open #:show #:carry #:lift #:put-down #:at #:gripper
+ #:close #:pose #:orientation)

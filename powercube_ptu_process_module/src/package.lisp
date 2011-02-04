@@ -38,3 +38,6 @@
         #:cljlo-utils
         #:cram-roslisp-common)
   (:export #:ptu-process-module))
+
+(desig:register-designator-properties
+ #:to #:see #:follow #:pose)
