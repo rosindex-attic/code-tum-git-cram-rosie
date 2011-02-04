@@ -71,8 +71,7 @@
                (:module "knowledge"
                         :depends-on ("package")
                         :components
-                        ((:file "prolog-utils")
-                         (:file "location-facts")))
+                        ((:file "location-facts")))
                (:module "contrib"
                         :depends-on ()
                         :components
