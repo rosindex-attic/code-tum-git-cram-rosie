@@ -29,7 +29,7 @@
 
 (in-package :navp-pm)
 
-(define-condition nav-action-error (simple-plan-error)
+(define-condition nav-action-error (simple-plan-failure)
   ((final-status :initarg :final-status :reader final-status)))
 
 (defconstant +min-nav-distance-threshold+ 0.05)

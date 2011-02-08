@@ -32,7 +32,7 @@
 (defvar *left-arm-action-client* nil)
 (defvar *right-arm-action-client* nil)
 
-(define-condition manipulation-action-error (simple-plan-error)
+(define-condition manipulation-action-error (simple-plan-failure)
   ((final-status :initarg :final-status :reader final-status)))
 
 (defun manipulation-actions-init ()
