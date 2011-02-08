@@ -1,10 +1,10 @@
 ;;;
 ;;; Copyright (c) 2010, Lorenz Moesenlechner <moesenle@in.tum.de>
 ;;; All rights reserved.
-;;; 
+;;;
 ;;; Redistribution and use in source and binary forms, with or without
 ;;; modification, are permitted provided that the following conditions are met:
-;;; 
+;;;
 ;;;     * Redistributions of source code must retain the above copyright
 ;;;       notice, this list of conditions and the following disclaimer.
 ;;;     * Redistributions in binary form must reproduce the above copyright
@@ -13,7 +13,7 @@
 ;;;     * Neither the name of Willow Garage, Inc. nor the names of its
 ;;;       contributors may be used to endorse or promote products derived from
 ;;;       this software without specific prior written permission.
-;;; 
+;;;
 ;;; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 ;;; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ;;; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -33,7 +33,8 @@
 (defvar *right-arm-action-client* nil)
 
 (define-condition manipulation-action-error (simple-plan-failure)
-  ((final-status :initarg :final-status :reader final-status)))
+  ((final-status :initarg :final-status :reader final-status)
+   (result :initarg :result :reader result)))
 
 (defun manipulation-actions-init ()
   (setf *left-arm-action-client*
@@ -69,10 +70,6 @@
              (roslisp:ros-info (kuka-manip process-module) "sending right goal.")
              (actionlib:call-goal *right-arm-action-client* action-goal)))
       (roslisp:ros-info (kuka-manip process-module) "Goal terminated with status `~a'." state)
-      (if result
-          (list state
-                (intern (string-upcase (cogman_msgs-msg:situation-val result))
-                        (find-package :keyword))
-                (map 'list #'identity (cogman_msgs-msg:better_base_ids-val result))
-                (cogman_msgs-msg:distance_to_goal-val result))
-          (list state nil nil -1.0)))))
+      (if (eq state :succeeded)
+          result
+          (error 'manipulation-action-error :final-status state :result result)))))
