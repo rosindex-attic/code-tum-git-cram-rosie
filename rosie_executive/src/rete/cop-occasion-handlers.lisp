@@ -53,32 +53,25 @@
                   eval_whitelist (vector (object-id perceived-object))
                   evaluation 1.0))))))
 
-(defun cop-failed-pick-up (op &key ?f ?obj ?side)
+(defun cop-failed-pick-up (op &key ?f ?obj ?side ?error)
   (declare (ignore ?side))
   (when (eq op :assert)
-    (let ((perceived-object (reference (newest-valid-designator ?obj)))
-          (error-code (case ?f
-                        (cram-plan-failures:manipulation-pose-unreachable
-                           (symbol-code 'vision_msgs-msg:<system_error>
-                                        :manipulation_pose_unreachable))
-                        (cram-plan-failures:manipulation-failed
-                           (symbol-code 'vision_msgs-msg:<system_error>
-                                        :grasp_failed))
-                        (t 1))))
-      (when (typep perceived-object 'cop-perceived-object)
-        (publish *cop-feedback-pub*
-                 (make-message
-                  "vision_msgs/cop_feedback"
-                  perception_primitive (perception-primitive
-                                        perceived-object)
-                  eval_whitelist (vector (object-id perceived-object))
-                  evaluation 0.0
-                  error (vector
-                         (make-message
-                          "vision_msgs/system_error"
-                          error_id error-code
-                          node_name *ros-node-name*
-                          error_description (symbol-name ?f)))))))))
+    (with-fields ((error-code (error_code error))) ?error
+      (let ((perceived-object (reference (newest-valid-designator ?obj))))
+        (when (typep perceived-object 'cop-perceived-object)
+          (publish *cop-feedback-pub*
+                   (make-message
+                    "vision_msgs/cop_feedback"
+                    perception_primitive (perception-primitive
+                                          perceived-object)
+                    eval_whitelist (vector (object-id perceived-object))
+                    evaluation 0.0
+                    error (vector
+                           (make-message
+                            "vision_msgs/system_error"
+                            error_id error-code
+                            node_name *ros-node-name*
+                            error_description (symbol-name ?f))))))))))
 
 (register-production-handler 'object-picked-up #'cop-successful-pick-up)
 (register-production-handler 'object-in-hand-failure #'cop-failed-pick-up)
