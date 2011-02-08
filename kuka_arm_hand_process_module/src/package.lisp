@@ -56,7 +56,8 @@
            #:kuka-arm-hand-designator
            #:cram-plan-failures
            #:desig)
-     (:nicknames :kuka-pm) 
+     (:nicknames :kuka-pm)
+     (:shadowing-import-from #:desig #:name)
      (:export
       #:kuka-arm-hand-manipulation
       ,@(let ((r nil))

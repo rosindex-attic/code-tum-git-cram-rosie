@@ -39,6 +39,7 @@
           #:cljlo-utils
           #:roslisp)
   (:nicknames :navp-pm)
+  (:shadowing-import-from #:desig #:name)
   (:export #:jlo-navp-controller-navigation
            #:navigation-failure
            #:location-not-reached-failure

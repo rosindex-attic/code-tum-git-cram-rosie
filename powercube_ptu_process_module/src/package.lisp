@@ -37,6 +37,7 @@
         #:cram-reasoning
         #:cljlo-utils
         #:cram-roslisp-common)
+  (:shadowing-import-from #:desig #:name)
   (:export #:ptu-process-module))
 
 (desig:register-designator-properties
