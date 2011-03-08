@@ -48,6 +48,7 @@
                  alexandria
                  cl-utils
                  table-costmap
+                 semantic-map-costmap
                  cram-plan-actionserver
                  jlo-navp-process-module
                  kuka-arm-hand-process-module
