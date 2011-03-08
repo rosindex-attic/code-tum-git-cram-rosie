@@ -56,7 +56,7 @@
 (defun cop-failed-pick-up (op &key ?f ?obj ?side ?error)
   (declare (ignore ?side))
   (when (eq op :assert)
-    (with-fields ((error-code (error_code error))) ?error
+    (with-fields ((error-code (error_id error))) (cram-plan-failures:result ?error)
       (let ((perceived-object (reference (newest-valid-designator ?obj))))
         (when (typep perceived-object 'cop-perceived-object)
           (publish *cop-feedback-pub*
