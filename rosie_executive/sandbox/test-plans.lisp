@@ -63,8 +63,8 @@
 names of points that are provided by the map_annotation server."
   (pursue
     (maybe-run-process-modules)
-    (with-designators ((from (location `((on table) (name ,from))))
-                       (to (location `((on table) (name ,to) (in reach))))
+    (with-designators ((from (location `((on counter-top) (name ,from))))
+                       (to (location `((on counter-top) (name ,to) (in reach))))
                        (obj (object `(,@obj-properties (at ,from))))
                        )
       (achieve `(loc ,obj ,to))
@@ -112,3 +112,33 @@ names of points that are provided by the map_annotation server."
       (sleep 0.5)
       (with-designators ((close-desig (action '((type trajectory) (to close) (gripper :both)))))
         (achieve `(arms-at ,close-desig))))))
+
+(def-top-level-plan pick-and-place-closest-obj (obj-properties from to)
+  (pursue
+    (maybe-run-process-modules)
+    (with-designators ((from (location `((on counter-top) (name ,from))))
+                       (to (location `((on counter-top) (name ,to) (in reach))))
+                       (obj (object `(,@obj-properties (at ,from)))))
+      (let* ((objs (perceive-all obj))
+             (closest-obj (closest-object objs)))
+        (equate obj closest-obj)
+        (achieve `(loc ,closest-obj ,to))
+        (with-designators ((obj-see-loc (location `((to see) (obj ,closest-obj)))))
+          (at-location (obj-see-loc)
+            (achieve '(arm-parked :both))))
+        (perceive closest-obj)))))
+
+(defun closest-object (objects)
+  (car
+   (sort objects
+         (lambda (o-1 o-2)
+           (<
+            (cl-transforms:v-norm (cl-transforms:origin
+                                   (tf:transform-pose
+                                    *tf* :target-frame "/base_footprint"
+                                    :pose (perception-pm:object-pose o-1))))
+            (cl-transforms:v-norm (cl-transforms:origin
+                                   (tf:transform-pose
+                                    *tf* :target-frame "/base_footprint"
+                                    :pose (perception-pm:object-pose o-2))))))
+         :key #'reference)))
