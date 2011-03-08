@@ -29,6 +29,18 @@
 
 (in-package :rex-reasoning)
 
+(defun find-desig-z-value (obj-desig pose)
+  (let* ((loc-desig (cadr (find 'at (description obj-desig)
+                                :key #'car)))
+         (z-value-bdgs (lazy-car
+                        (prolog
+                         `(desig-z-value ,loc-desig
+                                         ,(cl-transforms:origin pose) ?z)))))
+    (cond (z-value-bdgs
+           (var-value '?z z-value-bdgs))
+          ((parent obj-desig)
+           (find-desig-z-value (parent obj-desig) pose)))))
+
 (defun on-object-picked-up (op &key ?obj ?side)
   (when (eq op :assert)
     (let* ((obj-pose (cl-tf:transform-pose
@@ -39,6 +51,17 @@
                          :target-frame "/base_link"
                          :source-frame (format nil "/~a_arm_hand_link"
                                                (string-downcase (symbol-name ?side)))))
+           (height-value (or (when (value *table-height-map-fl*)
+                               (height-map-lookup
+                                (value *table-height-map-fl*)
+                                (cl-transforms:x (cl-transforms:origin obj-pose))
+                                (cl-transforms:y (cl-transforms:origin obj-pose))))
+                             (find-desig-z-value ?obj obj-pose)
+                             (prog1
+                                 (tf:z (cl-transforms:origin obj-pose))
+                               (ros-warn
+                                on-object-picked-up
+                                "Warning: could not infer valid z value for object pose."))))
            (new-loc (make-designator
                      'location
                      `((in gripper)
@@ -49,12 +72,8 @@
                                            (cl-transforms:make-3d-vector
                                             (cl-transforms:x (cl-transforms:origin obj-pose))
                                             (cl-transforms:y (cl-transforms:origin obj-pose))
-                                            (height-map-lookup
-                                             (value *table-height-map-fl*)
-                                             (cl-transforms:x (cl-transforms:origin obj-pose))
-                                             (cl-transforms:y (cl-transforms:origin obj-pose))))
+                                            height-value)
                                            (cl-transforms:orientation obj-pose))
-                                            
                                :target-frame (format nil "/~a_arm_hand_link"
                                                      (string-downcase (symbol-name ?side)))))
                        (orientation ,(cl-transforms:rotation hand-in-base))))))
