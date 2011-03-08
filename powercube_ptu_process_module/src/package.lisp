@@ -29,6 +29,9 @@
 
 (in-package :cl-user)
 
+(desig:register-designator-properties
+ #:type #:trajectory #:to #:see #:follow #:pose)
+
 (defpackage powercube-ptu-process-module
     (:nicknames :ptu-pm)
   (:use #:cl
@@ -40,5 +43,3 @@
   (:shadowing-import-from #:desig #:name)
   (:export #:ptu-process-module))
 
-(desig:register-designator-properties
- #:to #:see #:follow #:pose)

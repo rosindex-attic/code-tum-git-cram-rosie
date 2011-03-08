@@ -27,6 +27,11 @@
 ;;; POSSIBILITY OF SUCH DAMAGE.
 ;;;
 
+(desig:register-designator-properties
+ #:grasp #:obj #:side #:to #:navigate #:pose #:parked
+ #:type #:trajectory #:open #:show #:carry #:lift
+ #:put-down #:at #:gripper #:close #:pose #:orientation)
+
 (defpackage kuka-arm-hand-designator
     (:documentation "Package for reasoning and designator related stuff.")
   (:use #:common-lisp
@@ -42,9 +47,7 @@
   (:export #:trajectory-action #:side #:trajectory-type #:stored-pose-type
            #:object-type #:hand-primitive #:end-effector-pose
            #:obstacles #:grasp-distance #:supporting-plane
-           #:copy-trajectory-action
-           #:to #:grasp #:obj #:side #:to #:navigate #:pose #:parked
-           #:open #:show #:carry #:lift #:put-down #:at #:gripper)
+           #:copy-trajectory-action)
   (:import-from #:perception-process-module
                 #:object-jlo))
 
@@ -63,7 +66,3 @@
       ,@(let ((r nil))
           (do-external-symbols (s :kuka-arm-hand-designator r) (push s r)))))
 
-(desig:register-designator-properties
- #:grasp #:obj #:side #:to #:navigate #:pose #:parked
- #:open #:show #:carry #:lift #:put-down #:at #:gripper
- #:close #:pose #:orientation)
