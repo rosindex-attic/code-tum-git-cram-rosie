@@ -72,15 +72,19 @@
         at
       (assert pose () "Location designator `~a' does not contain a valid pose." at)
       (assert orientation () "Location designator `~a' does not contain a valid orientation" at)
-      (let ((put-down-in-base (cl-tf:transform-pose
-                               *tf* :pose (reference dest-loc-desig)
-                               :target-frame "/base_link")))
-        (cl-tf:make-pose-stamped "/base_link" (roslisp:ros-time)
-                                 (cl-transforms:v+
-                                  (cl-transforms:origin put-down-in-base)
-                                  (cl-transforms:origin pose)
-                                  (cl-transforms:make-3d-vector 0 0 0.01))
-                                 orientation)))))
+      (let* ((put-down-in-base (cl-tf:transform-pose
+                                *tf* :pose (reference dest-loc-desig)
+                                :target-frame "/base_link"))
+             (put-down-pose (cl-tf:make-pose-stamped
+                             "/base_link" (roslisp:ros-time)
+                             (cl-transforms:v+
+                              (cl-transforms:origin put-down-in-base)
+                              (cl-transforms:origin pose)
+                              (cl-transforms:make-3d-vector 0 0 0.01))
+                             orientation)))
+        (roslisp:ros-info (kuka-arm-hand process-module)
+                          "Using put-down-pose ~a" put-down-pose)
+        put-down-pose))))
 
 (defun side-str (side)
   (etypecase side
