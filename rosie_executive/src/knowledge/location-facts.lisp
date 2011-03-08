@@ -56,8 +56,8 @@
 
 (def-fact-group rosie-specific-costmap-params (drivable-location-costmap)
   (<- (costmap-padding 0.75))
-  (<- (costmap-manipulation-padding 0.55))
-  (<- (costmap-in-reach-padding 1.0))
+  (<- (costmap-manipulation-padding 0.65))
+  (<- (costmap-in-reach-padding 0.90))
 
   (<- (drivable-location-costmap ?cm ?_)
     (costmap ?cm)
