@@ -45,9 +45,16 @@
             "Received MANIPULATION-ACTION-ERROR condition (terminal state ~a)."
             (final-status e))
            (roslisp:with-fields ((err (error_id error))) (result e)
-             (ecase err
+             (case (car (rassoc
+                         err
+                         (roslisp-msg-protocol:symbol-codes
+                          'vision_msgs-msg:system_error)))
                (:manipulation_pose_unreachable
                   (fail 'manipulation-pose-unreachable :result (result e)))
+               (:grasp_failed
+                  (fail 'manipulation-failed :result (result e)))
+               (:contradicting_tactile_feedback
+                  (return (result e)))
                (t (fail 'manipulation-failed :result (result e)))))))
       (ecase (side action)
         (:left (execute-arm-action action))
