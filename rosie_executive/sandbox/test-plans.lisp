@@ -128,9 +128,30 @@ names of points that are provided by the map_annotation server."
             (achieve '(arm-parked :both))))
         (perceive closest-obj)))))
 
+(def-top-level-plan pick-and-place-right-most-obj (obj-properties from to)
+  (pursue
+    (maybe-run-process-modules)
+    (with-designators ((from (location `((on counter-top) (name ,from)
+                                         (pose ,(cl-tf:make-pose-stamped
+                                                 "/map" 0.0
+                                                 (cl-transforms:make-3d-vector -2.18 1.37 0.92)
+                                                 (cl-transforms:make-quaternion 0 0 0 1))))))
+                       (to (location `((on counter-top) (name ,to) (in reach)
+                                       (pose ,(cl-tf:make-pose-stamped
+                                               "/map" 0.0
+                                               (cl-transforms:make-3d-vector -2.1 1.75 0.86)
+                                               (cl-transforms:make-quaternion 0 0 0 1))))))
+                       (obj (object `(,@obj-properties (at ,from)))))
+      (let* ((objs (perceive-all obj))
+             (right-most-object (right-most-object objs)))
+        (equate obj right-most-object)
+        (achieve `(loc ,right-most-object ,to))
+        (setf right-most-object (perceive right-most-object))
+        (rex-reasoning:cop-object-relocated right-most-object)))))
+
 (defun closest-object (objects)
   (car
-   (sort objects
+   (sort (mapcar #'identity objects)
          (lambda (o-1 o-2)
            (<
             (cl-transforms:v-norm (cl-transforms:origin
@@ -141,4 +162,34 @@ names of points that are provided by the map_annotation server."
                                    (tf:transform-pose
                                     *tf* :target-frame "/base_footprint"
                                     :pose (perception-pm:object-pose o-2))))))
+         :key #'reference)))
+
+(defun right-most-object (objects)
+  (car
+   (sort (mapcar #'identity objects)
+         (lambda (o-1 o-2)
+           (<
+            (cl-transforms:y (cl-transforms:origin
+                              (tf:transform-pose
+                               *tf* :target-frame "/base_footprint"
+                               :pose (perception-pm:object-pose o-1))))
+            (cl-transforms:y (cl-transforms:origin
+                              (tf:transform-pose
+                               *tf* :target-frame "/base_footprint"
+                               :pose (perception-pm:object-pose o-2))))))
+         :key #'reference)))
+
+(defun left-most-object (objects)
+  (car
+   (sort (mapcar #'identity objects)
+         (lambda (o-1 o-2)
+           (>
+            (cl-transforms:y (cl-transforms:origin
+                              (tf:transform-pose
+                               *tf* :target-frame "/base_footprint"
+                               :pose (perception-pm:object-pose o-1))))
+            (cl-transforms:y (cl-transforms:origin
+                              (tf:transform-pose
+                               *tf* :target-frame "/base_footprint"
+                               :pose (perception-pm:object-pose o-2))))))
          :key #'reference)))
