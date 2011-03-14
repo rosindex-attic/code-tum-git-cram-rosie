@@ -48,9 +48,9 @@
                       :target-frame "/map"))
            (hand-in-base (cl-tf:lookup-transform
                           *tf*
-                         :target-frame "/base_link"
-                         :source-frame (format nil "/~a_arm_hand_link"
-                                               (string-downcase (symbol-name ?side)))))
+                          :target-frame "/base_link"
+                          :source-frame (format nil "/~a_arm_hand_link"
+                                                (string-downcase (symbol-name ?side)))))
            (height-value (or (when (value *table-height-map-fl*)
                                (height-map-lookup
                                 (value *table-height-map-fl*)
@@ -76,6 +76,12 @@
                                            (cl-transforms:orientation obj-pose))
                                :target-frame (format nil "/~a_arm_hand_link"
                                                      (string-downcase (symbol-name ?side)))))
+                       (height ,(-  (cl-transforms:z (cl-transforms:origin obj-pose))
+                                    height-value))
+                       ;;; UGLY HACK: since we cannot reach all
+                       ;;; put-down locations, we currently use the
+                       ;;; hand orientation we used while picking up
+                       ;;; the object
                        (orientation ,(cl-transforms:rotation hand-in-base))))))
       (make-designator 'object
                        `((at ,new-loc) . ,(remove 'at (description ?obj) :key #'car))

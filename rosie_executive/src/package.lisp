@@ -59,4 +59,6 @@
   (:import-from #:cpl-impl #:value)
   (:import-from #:cram-plan-library
                 #:object-picked-up
-                #:object-in-hand-failure))
+                #:object-in-hand-failure)
+  (:shadowing-import-from #:desig #:height)
+  (:export cop-object-relocated))
