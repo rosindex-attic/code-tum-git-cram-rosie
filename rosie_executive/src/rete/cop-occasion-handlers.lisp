@@ -97,15 +97,16 @@
                           node_name *ros-node-name*
                           error_description "could not re-locate object"))))))))
 
-(defun cop-object-relocated (obj)
+(defun cop-object-relocated (obj &optional (distance 0.0))
   (let ((perceived-object (and (valid obj) (reference obj))))
+    (ros-info (cop feedback) "distance: ~a~%" distance)
     (when perceived-object
       (publish *cop-feedback-pub*
                (make-message
                 "vision_msgs/cop_feedback"
                 perception_primitive (perception-primitive perceived-object)
                 eval_whitelist (vector (object-id perceived-object))
-                evaluation 1.0)))))
+                evaluation (if (> distance 0.4) 0 1))))))
 
 (register-production-handler 'object-picked-up #'cop-successful-pick-up)
 (register-production-handler 'object-in-hand-failure #'cop-failed-pick-up)

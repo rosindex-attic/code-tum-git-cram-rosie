@@ -147,7 +147,11 @@ names of points that are provided by the map_annotation server."
         (equate obj right-most-object)
         (achieve `(loc ,right-most-object ,to))
         (setf right-most-object (perceive right-most-object))
-        (rex-reasoning:cop-object-relocated right-most-object)))))
+        (rex-reasoning:cop-object-relocated
+         right-most-object (cl-transforms:v-dist
+                            (cl-transforms:origin (designator-pose right-most-object))
+                            (cl-transforms:origin (designator-pose to))))))))
+
 
 (defun closest-object (objects)
   (car
