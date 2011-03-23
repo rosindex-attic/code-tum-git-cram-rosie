@@ -30,7 +30,8 @@
 (desig:register-designator-properties
  #:grasp #:obj #:side #:to #:navigate #:pose #:parked
  #:type #:trajectory #:open #:show #:carry #:lift
- #:put-down #:at #:gripper #:close #:pose #:orientation)
+ #:put-down #:at #:gripper #:close #:pose #:orientation
+ #:obstacle)
 
 (defpackage kuka-arm-hand-designator
     (:documentation "Package for reasoning and designator related stuff.")
@@ -44,7 +45,7 @@
         #:cram-plan-knowledge
         #:cljlo-utils)
   (:nicknames :kuka-manip-desig)
-  (:export #:trajectory-action #:side #:trajectory-type #:stored-pose-type
+  (:export #:trajectory-action #:trajectory-type #:stored-pose-type
            #:object-type #:hand-primitive #:end-effector-pose
            #:obstacles #:grasp-distance #:supporting-plane
            #:copy-trajectory-action)

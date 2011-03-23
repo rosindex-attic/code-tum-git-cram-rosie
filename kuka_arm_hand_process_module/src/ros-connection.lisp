@@ -57,7 +57,7 @@
                                                            ;; Parameter not set, use default
                                                            0
                                                            (jlo:id (end-effector-pose action-description)))
-                                    :obstacle_ids nil
+                                    :obstacle_ids (map 'vector #'identity (obstacles action-description))
                                     :distance (grasp-distance action-description)
                                     ;; :supporting_plane (unused)
                                     )))
