@@ -75,27 +75,29 @@
 
 (defun cop-object-not-found (op &key ?f)
   (when (eq op :assert)
-    (let* ((desig (newest-valid-designator
-                   (cram-plan-failures:object-not-found-desig ?f)))
-           (perceived-object (and desig (valid desig) (reference desig))))
-      (when (and
-             desig perceived-object
-             (typep perceived-object 'cop-perceived-object))
-        (publish *cop-feedback-pub*
-                 (make-message
-                  "vision_msgs/cop_feedback"
-                  perception_primitive (perception-primitive
-                                        perceived-object)
-                  eval_whitelist (vector (object-id perceived-object))
-                  evaluation 0.0
-                  error (vector
-                         (make-message
-                          "vision_msgs/system_error"
-                          error_id (roslisp-msg-protocol:symbol-code
-                                    'vision_msgs-msg:system_error
-                                    :contradicting_vision_results)
-                          node_name *ros-node-name*
-                          error_description "could not re-locate object"))))))))
+    (handler-case
+        (let* ((desig (newest-valid-designator
+                       (cram-plan-failures:object-not-found-desig ?f)))
+               (perceived-object (and desig (valid desig) (reference desig))))
+          (when (and
+                 desig perceived-object
+                 (typep perceived-object 'cop-perceived-object))
+            (publish *cop-feedback-pub*
+                     (make-message
+                      "vision_msgs/cop_feedback"
+                      perception_primitive (perception-primitive
+                                            perceived-object)
+                      eval_whitelist (vector (object-id perceived-object))
+                      evaluation 0.0
+                      error (vector
+                             (make-message
+                              "vision_msgs/system_error"
+                              error_id (roslisp-msg-protocol:symbol-code
+                                        'vision_msgs-msg:system_error
+                                        :contradicting_vision_results)
+                              node_name *ros-node-name*
+                              error_description "could not re-locate object"))))))
+      (designator-error () nil))))
 
 (defun cop-object-relocated (obj &optional (distance 0.0))
   (let ((perceived-object (and (valid obj) (reference obj))))
