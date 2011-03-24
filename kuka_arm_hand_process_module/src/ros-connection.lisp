@@ -59,7 +59,7 @@
                                                            (jlo:id (end-effector-pose action-description)))
                                     :obstacle_ids (map 'vector #'identity (obstacles action-description))
                                     :distance (grasp-distance action-description)
-                                    ;; :supporting_plane (unused)
+                                    :supporting_plane 0.86
                                     )))
     (multiple-value-bind (result state)
         (ecase (side action-description)
