@@ -139,7 +139,7 @@ names of points that are provided by the map_annotation server."
                        (to (location `((on counter-top) (name ,to) (in reach)
                                        (pose ,(cl-tf:make-pose-stamped
                                                "/map" 0.0
-                                               (cl-transforms:make-3d-vector -2.1 1.75 0.86)
+                                               (cl-transforms:make-3d-vector -2.2 1.75 0.86)
                                                (cl-transforms:make-quaternion 0 0 0 1))))))
                        (obj (object `(,@obj-properties (at ,from)))))
       (let* ((objs (perceive-all obj))
