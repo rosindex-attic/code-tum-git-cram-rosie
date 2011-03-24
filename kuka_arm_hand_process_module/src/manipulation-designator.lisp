@@ -84,20 +84,18 @@
       (let* ((put-down-in-base (cl-tf:transform-pose
                                 *tf* :pose (reference dest-loc-desig)
                                 :target-frame "/base_link"))
-             (grasp-trans-inv (cl-transforms:transform-inv
-                               (cl-transforms:reference-transform
-                                pose)))
-             (put-down-trans (cl-transforms:transform*
-                              (cl-transforms:reference-transform put-down-in-base)
-                              grasp-trans-inv))
+             (grasp-offset (cl-transforms:rotate
+                            orientation
+                            (cl-transforms:v-inv (cl-transforms:origin pose))))
              (put-down-pose (cl-tf:make-pose-stamped
                              "/base_link" (roslisp:ros-time)
                              (cl-transforms:v+
-                              (cl-transforms:translation put-down-trans)
+                              (cl-transforms:origin put-down-in-base)
+                              grasp-offset
                               (cl-transforms:make-3d-vector 0 0 0.005))
                              orientation)))
         (roslisp:ros-info (kuka-arm-hand process-module)
-                          "Using put-down-pose ~a" put-down-pose)
+                          "Using put-down-pose ~a with offset ~a" put-down-pose grasp-offset)
         put-down-pose))))
 
 (defun side-str (side)
