@@ -103,7 +103,7 @@
     (symbol (string-downcase (symbol-name side)))
     (string side)))
 
-(defun calculate-lift-pose (side &optional (distance 0.20))
+(defun calculate-lift-pose (side &key (distance 0.25) transform)
   (let ((gripper-pose (cl-tf:lookup-transform
                        *tf*
                        :target-frame "/base_link"
@@ -116,7 +116,13 @@
                            (cl-transforms:make-3d-vector 0 0 distance)
                            (cl-transforms:make-quaternion 0 0 0 1))))
     (assert gripper-pose () "Cannot look up gripper frame.")
-    (let ((lift-pose (cl-transforms:transform* offset-transform gripper-pose)))
+    (let ((lift-pose (cl-transforms:transform*
+                      (if transform
+                          (cl-transforms:transform*
+                           transform offset-transform)
+                          offset-transform)
+                      gripper-pose)))
+      (format t "lift pose: ~a~%" lift-pose)
       (cl-tf:make-pose-stamped
        "/base_link" (cl-tf:stamp gripper-pose)
        (cl-transforms:translation lift-pose)
@@ -259,12 +265,14 @@
     (trajectory-desig? ?desig)
     (desig-prop ?desig (to lift))
     (desig-prop ?desig (side ?side))
+    (-> (desig-prop ?desig (transform ?trans))
+        (true) (== ?trans nil))
     (findall ?o (desig-prop ?desig (obstacle ?o)) ?obstacles)
     (lisp-fun get-jlo-ids ?obstacles ?obstacle-ids)
     (instance-of trajectory-action ?act)
     (slot-value ?act side ?side)
     (slot-value ?act obstacles ?obstacle-ids)
-    (lisp-fun calculate-lift-pose ?side ?lift-pose)
+    (lisp-fun calculate-lift-pose ?side :transform ?trans ?lift-pose)
     (lisp-fun pose->jlo ?lift-pose ?lift-jlo)
     (slot-value ?act trajectory-type "arm_cart_loid")
     (slot-value ?act end-effector-pose ?lift-jlo))
