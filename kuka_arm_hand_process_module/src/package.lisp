@@ -31,7 +31,7 @@
  #:grasp #:obj #:side #:to #:navigate #:pose #:parked
  #:type #:trajectory #:open #:show #:carry #:lift
  #:put-down #:at #:gripper #:close #:pose #:orientation
- #:obstacle #:transform)
+ #:obstacle)
 
 (defpackage kuka-arm-hand-designator
     (:documentation "Package for reasoning and designator related stuff.")
