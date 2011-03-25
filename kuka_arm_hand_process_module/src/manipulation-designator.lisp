@@ -117,11 +117,11 @@
                            (cl-transforms:make-quaternion 0 0 0 1))))
     (assert gripper-pose () "Cannot look up gripper frame.")
     (let ((lift-pose (cl-transforms:transform*
-                      gripper-pose
                       (if transform
                           (cl-transforms:transform*
                            transform offset-transform)
-                          offset-transform))))
+                          offset-transform)
+                      gripper-pose)))
       (format t "lift pose: ~a~%" lift-pose)
       (cl-tf:make-pose-stamped
        "/base_link" (cl-tf:stamp gripper-pose)
