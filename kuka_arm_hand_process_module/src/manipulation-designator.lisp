@@ -98,6 +98,30 @@
                           "Using put-down-pose ~a with offset ~a" put-down-pose grasp-offset)
         put-down-pose))))
 
+(defun calculate-pre-put-down-pose (dest-loc-desig obj-desig)
+  (check-type dest-loc-desig location-designator)
+  (check-type obj-desig object-designator)
+  (let ((put-down-pose (tf:transform-pose
+                        *tf* :target-frame "/base_link"
+                        :pose (calculate-put-down-pose dest-loc-desig obj-desig))))
+    (tf:make-pose-stamped
+     "/base_link" (roslisp:ros-time)
+     (cl-transforms:v+
+      (cl-transforms:origin put-down-pose)
+      (cl-transforms:make-3d-vector 0 0 0.05))
+     (cl-transforms:orientation put-down-pose))))
+
+(defun open-cartesian-pose (side)
+  (ecase side
+    (:right (tf:make-pose-stamped
+             "/base_link" (roslisp:ros-time)
+             (cl-transforms:make-3d-vector 0.697972 -0.76051843 1.4193239)
+             (cl-transforms:make-quaternion -0.48113352 -0.7482077 -0.41811603 -0.18405108)))
+    (:left (tf:make-pose-stamped
+            "/base_link" (roslisp:ros-time)
+            (cl-transforms:make-3d-vector 0.8460113 0.6498456 1.2950922)
+            (cl-transforms:make-quaternion -0.41102016 0.5420266 -0.6790333 0.27601352)))))
+
 (defun side-str (side)
   (etypecase side
     (symbol (string-downcase (symbol-name side)))
@@ -247,6 +271,20 @@
 
   (<- (action-desig ?desig ?act)
     (trajectory-desig? ?desig)
+    (desig-prop ?desig (pose open-cart))
+    (desig-prop ?desig (side ?side))
+    (findall ?o (desig-prop ?desig (obstacle ?o)) ?obstacles)
+    (lisp-fun get-jlo-ids ?obstacles ?obstacle-ids)
+    (instance-of trajectory-action ?act)
+    (slot-value ?act side ?side)
+    (slot-value ?act obstacles ?obstacle-ids)
+    (lisp-fun open-cartesian-pose ?side ?pose)
+    (lisp-fun pose->jlo ?pose ?jlo)
+    (slot-value ?act trajectory-type "arm_cart_loid")
+    (slot-value ?act end-effector-pose ?jlo))  
+
+  (<- (action-desig ?desig ?act)
+    (trajectory-desig? ?desig)
     (desig-prop ?desig (to show))
     (desig-prop ?desig (side ?side))
     (instance-of trajectory-action ?act)
@@ -283,6 +321,23 @@
     (slot-value ?act end-effector-pose ?carry-jlo)
     (slot-value ?act obstacles ?obstacle-ids))
 
+  (<- (action-desig ?desig ?act)
+    (trajectory-desig? ?desig)
+    (desig-prop ?desig (to pre-put-down))
+    (desig-prop ?desig (side ?side))
+    (desig-prop ?desig (at ?loc-desig))
+    (desig-prop ?desig (obj ?obj-desig))
+    (findall ?o (desig-prop ?desig (obstacle ?o)) ?obstacles)
+    (lisp-fun get-jlo-ids ?obstacles ?obstacle-ids)
+    (grasp-info ?obj-desig ?obj-type ?_ ?_)
+    (instance-of trajectory-action ?act)
+    (slot-value ?act side ?side)
+    (slot-value ?act trajectory-type "arm_cart_move_loid")
+    (lisp-fun calculate-pre-put-down-pose ?loc-desig ?obj-desig ?pose)
+    (lisp-fun pose->jlo ?pose ?jlo)
+    (slot-value ?act end-effector-pose ?jlo)
+    (slot-value ?act obstacles ?obstacle-ids))
+  
   (<- (action-desig ?desig ?act)
     (trajectory-desig? ?desig)
     (desig-prop ?desig (to put-down))
