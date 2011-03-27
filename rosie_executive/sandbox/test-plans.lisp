@@ -152,6 +152,29 @@ names of points that are provided by the map_annotation server."
                             (cl-transforms:origin (designator-pose right-most-object))
                             (cl-transforms:origin (designator-pose to))))))))
 
+(def-top-level-plan pick-and-place-left-most-obj (obj-properties from to)
+  (pursue
+    (maybe-run-process-modules)
+    (with-designators ((from (location `((on counter-top) (name ,from)
+                                         (pose ,(cl-tf:make-pose-stamped
+                                                 "/map" 0.0
+                                                 (cl-transforms:make-3d-vector -1.9 1.37 0.92)
+                                                 (cl-transforms:make-quaternion 0 0 0 1))))))
+                       (to (location `((on counter-top) (name ,to) (in reach)
+                                       (pose ,(cl-tf:make-pose-stamped
+                                               "/map" 0.0
+                                               (cl-transforms:make-3d-vector -1.85 1.75 0.86)
+                                               (cl-transforms:make-quaternion 0 0 0 1))))))
+                       (obj (object `(,@obj-properties (at ,from)))))
+      (let* ((objs (perceive-all obj))
+             (left-most-object (left-most-object objs)))
+        (equate obj left-most-object)
+        (achieve `(loc ,left-most-object ,to))
+        (setf left-most-object (perceive left-most-object))
+        (rex-reasoning:cop-object-relocated
+         left-most-object (cl-transforms:v-dist
+                            (cl-transforms:origin (designator-pose left-most-object))
+                            (cl-transforms:origin (designator-pose to))))))))
 
 (defun closest-object (objects)
   (car

@@ -59,12 +59,20 @@
   (<- (costmap-manipulation-padding 0.65))
   (<- (costmap-in-reach-padding 0.90))
 
+  ;; (<- (drivable-location-costmap ?cm ?_)
+  ;;   (costmap ?cm)
+  ;;   (lisp-fun current-robot-axis-side :x -2.0 ?side)
+  ;;   (costmap-add-function
+  ;;    x-axis-side
+  ;;    (make-axis-boundary-cost-function :x -2.0 ?side)
+  ;;    ?cm))
+
   (<- (drivable-location-costmap ?cm ?_)
     (costmap ?cm)
-    (lisp-fun current-robot-axis-side :x -2.0 ?side)
+    (lisp-fun current-robot-axis-side :x -1.9 ?side)
     (costmap-add-function
      x-axis-side
-     (make-axis-boundary-cost-function :x -2.0 ?side)
+     (make-axis-boundary-cost-function :x -1.9 ?side)
      ?cm)))
 
 (def-fact-group costmap-metadata ()
