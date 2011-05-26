@@ -27,13 +27,7 @@
 ;;; POSSIBILITY OF SUCH DAMAGE.
 ;;;
 
-(desig:register-designator-properties
- #:grasp #:obj #:side #:to #:navigate #:pose #:parked
- #:type #:trajectory #:open #:show #:carry #:lift
- #:put-down #:at #:gripper #:close #:pose #:orientation
- #:obstacle #:pre-put-down #:open-cart)
-
-(defpackage kuka-arm-hand-designator
+(desig:def-desig-package kuka-arm-hand-designator
     (:documentation "Package for reasoning and designator related stuff.")
   (:use #:common-lisp
         #:crs
@@ -50,7 +44,11 @@
            #:obstacles #:grasp-distance #:supporting-plane
            #:copy-trajectory-action)
   (:import-from #:perception-process-module
-                #:object-jlo))
+                #:object-jlo)
+  (:desig-properties  #:grasp #:obj #:side #:to #:navigate #:pose #:parked
+                      #:type #:trajectory #:open #:show #:carry #:lift
+                      #:put-down #:at #:gripper #:close #:pose #:orientation
+                      #:obstacle #:pre-put-down #:open-cart))
 
 #.`(defpackage kuka-arm-hand-process-module
        (:documentation "Package for the kuka arm-hand process module")

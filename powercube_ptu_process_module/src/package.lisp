@@ -29,10 +29,7 @@
 
 (in-package :cl-user)
 
-(desig:register-designator-properties
- #:type #:trajectory #:to #:see #:follow #:pose)
-
-(defpackage powercube-ptu-process-module
+(desig:def-desig-package powercube-ptu-process-module
     (:nicknames :ptu-pm)
   (:use #:cl
         #:cram-process-modules
@@ -41,5 +38,6 @@
         #:cljlo-utils
         #:cram-roslisp-common)
   (:shadowing-import-from #:desig #:name)
-  (:export #:ptu-process-module))
+  (:export #:ptu-process-module)
+  (:desig-properties #:type #:trajectory #:to #:see #:follow #:pose))
 
