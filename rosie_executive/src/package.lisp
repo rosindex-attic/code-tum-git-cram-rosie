@@ -40,7 +40,7 @@
   (:shadowing-import-from #:table-costmap
                           #:name))
 
-(defpackage :rosie-executive-reasoning
+(desig:def-desig-package :rosie-executive-reasoning
     (:nicknames :kipla-reasoning :rex-reasoning)
   (:use #:common-lisp
         #:crs
@@ -60,5 +60,5 @@
   (:import-from #:cram-plan-library
                 #:object-picked-up
                 #:object-in-hand-failure)
-  (:shadowing-import-from #:desig #:height)
-  (:export cop-object-relocated))
+  (:export cop-object-relocated)
+  (:desig-properties #:height))
