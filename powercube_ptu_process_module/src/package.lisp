@@ -29,7 +29,7 @@
 
 (in-package :cl-user)
 
-(desig:def-desig-package powercube-ptu-process-module
+(desig-props:def-desig-package powercube-ptu-process-module
     (:nicknames :ptu-pm)
   (:use #:cl
         #:cram-process-modules

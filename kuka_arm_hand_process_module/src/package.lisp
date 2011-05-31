@@ -27,7 +27,7 @@
 ;;; POSSIBILITY OF SUCH DAMAGE.
 ;;;
 
-(desig:def-desig-package kuka-arm-hand-designator
+(desig-props:def-desig-package kuka-arm-hand-designator
     (:documentation "Package for reasoning and designator related stuff.")
   (:use #:common-lisp
         #:crs

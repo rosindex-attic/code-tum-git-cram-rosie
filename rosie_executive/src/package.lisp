@@ -40,7 +40,7 @@
   (:shadowing-import-from #:table-costmap
                           #:name))
 
-(desig:def-desig-package :rosie-executive-reasoning
+(desig-props:def-desig-package :rosie-executive-reasoning
     (:nicknames :kipla-reasoning :rex-reasoning)
   (:use #:common-lisp
         #:crs
