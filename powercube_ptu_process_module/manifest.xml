@@ -8,7 +8,7 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/powercube_ptu_process_module</url>
-  <depend package="process_modules"/>
+  <depend package="cram_process_modules"/>
   <depend package="designators"/>
   <depend package="cram_reasoning"/>
   <depend package="cram_roslisp_common"/>
