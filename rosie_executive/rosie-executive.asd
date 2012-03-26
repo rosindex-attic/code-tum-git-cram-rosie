@@ -47,7 +47,7 @@
                  geometry_msgs-msg
                  alexandria
                  cl-utils
-                 table-costmap
+                 occupancy-grid-costmap
                  semantic-map-costmap
                  cram-plan-actionserver
                  jlo-navp-process-module
