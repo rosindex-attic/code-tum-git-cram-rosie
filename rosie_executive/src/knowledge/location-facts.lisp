@@ -38,7 +38,7 @@
 ;;; (of ?obj)
 ;;; (for ?obj-type)
 
-(defun current-robot-axis-side (axis boundary)
+(defun current-robot-axis-side-predicate (axis boundary)
   (let ((robot-pos (cl-transforms:translation
                       (cl-tf:lookup-transform
                        *tf*
@@ -48,8 +48,7 @@
              (:x (cl-transforms:x robot-pos))
              (:y (cl-transforms:y robot-pos)))
            boundary)
-        :left
-        :right)))
+        #'< #'>)))
 
 (defmethod costmap-generator-name->score ((name (eql 'x-axis-side)))
   11)
@@ -61,7 +60,7 @@
 
   ;; (<- (drivable-location-costmap ?cm ?_)
   ;;   (costmap ?cm)
-  ;;   (lisp-fun current-robot-axis-side :x -2.0 ?side)
+  ;;   (lisp-fun current-robot-axis-side-predicate :x -2.0 ?side)
   ;;   (costmap-add-function
   ;;    x-axis-side
   ;;    (make-axis-boundary-cost-function :x -2.0 ?side)
@@ -69,7 +68,7 @@
 
   (<- (drivable-location-costmap ?cm ?_)
     (costmap ?cm)
-    (lisp-fun current-robot-axis-side :x -1.9 ?side)
+    (lisp-fun current-robot-axis-side-predicate :x -1.9 ?side)
     (costmap-add-function
      x-axis-side
      (make-axis-boundary-cost-function :x -1.9 ?side)
